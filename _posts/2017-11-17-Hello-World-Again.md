@@ -6,7 +6,7 @@ title: First Ever Post
 This is my first personal post on GitHub Pages.
 
 ```javascript
-function HelloWorld = (name) => {
+const HelloWorld = (name) => {
   console.log(`Hello ${name}! Welcome to Kendrick\'s World!`);
 }
 
