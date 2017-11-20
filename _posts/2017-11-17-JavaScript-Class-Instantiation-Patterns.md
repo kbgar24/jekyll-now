@@ -7,7 +7,7 @@ An overview and comparison of the four JavaScript Class Instantiation patterns.
 
 # Functional
 ```javascript
-// Constructor:
+// Constructor
 const Car = (obj, location, speed) => {
   obj.location = 0;
   obj.speed = speed;
@@ -16,7 +16,7 @@ const Car = (obj, location, speed) => {
   return obj;
 };
 
-// Instantiation:
+// Instantiation
 const mazda = Car({}, 0, 3);
 const ferrari = Car({}, 0, 10);
 
@@ -30,7 +30,7 @@ The primary advantage of the functional style is that it does not use the **this
 
 # Functional-Shared
 ```javascript
-// Constructor:
+// Constructor
 const Car = (obj, location, speed) => {
   obj.location = 0;
   obj.speed = speed;
@@ -39,12 +39,12 @@ const Car = (obj, location, speed) => {
   return obj;
 };
 
-// Methods:
+// Methods
 const carMethods = {};
 carMethods.move = function(){ this.location += 1*this.speed; }
 carMethods.honk = function(){ console.log('Beep Beep'); };
 
-// Instantiation:
+// Instantiation
 const mazda = Car({}, 0, 3);
 const ferrari = Car({}, 0, 10);
 ```
@@ -54,7 +54,7 @@ This Functional-shared style seeks to relieve the main drawback of the functiona
 
 # Prototypal
 ```javascript
-// Constructor:
+// Constructor
 const Car = (location, speed) => {
   const obj = Object.create(Car.prototype);
   obj.location = location;
@@ -62,11 +62,11 @@ const Car = (location, speed) => {
   return obj;
 };
 
-// Methods:
+// Methods
 Car.prototype.move = function(){ this.location += 1*this.speed; }
 Car.prototype.honk = function(){ console.log('Beep Beep'); };
 
-// Instantiation:
+// Instantiation
 const mazda = Car({}, 0, 3);
 ```
 
@@ -77,7 +77,7 @@ The [*Object.create()*] function creates a new object, setting the first given a
 
 # Psuedoclassical
 ```javascript
-// Constructor:
+// Constructor
 const Car = (location, speed) => {
   this.location = location;
   this.speed = speed;
@@ -87,7 +87,7 @@ const Car = (location, speed) => {
 Car.prototype.move = function(){ this.location += 1*this.speed; }
 Car.prototype.honk = function(){ console.log('Beep Beep'); };
 
-// Instantiation:
+// Instantiation
 const mazda = new Car({}, 0, 3);
 ```
 
