@@ -3,19 +3,10 @@ layout: post
 title: JavaScript Class Instantiation Patterns
 ---
 
-An overview of the 4 Instantiation Patterns - Functional, Functional Shared, Prototypal & Psudoclassical.
+An overview of the 4 JavaScript Class Instantiation Patterns - Functional, Functional Shared, Prototypal & Psuedoclassical.
 
-```javascript
-const HelloWorld = (name) => {
-  console.log(`Hello ${name}! Welcome to Kendrick\'s World!`);
-}
 
-```
-
-Functional
-
-This is perhaps the simplest to understand:
-
+# Functional
 ```javascript
 
 // Constructor:
@@ -34,14 +25,13 @@ const ferrari = Car({}, 0, 10);
 ```
 Functional classes are very easy to understand, as they take an object as an input, assign properties and methods to it, and then return that object.
 
-The problem with functional classes is each instance of the Class will have it's version of every method, which takes up more space in memory each time a new instance of that Class is created. This almost makes it difficult to change the methods for all instances in the Class.
+The potential problem with functional classes is that each instance of the Class will have it's own copy of every method, which takes up more space in memory each time a new instance of that Class is created. This also makes it more cumbersome to change class methods in the future, as all current instances would have to be manually updated to reflect the changed methods.
 
-Functional-shared
+The primary advantage of the Functional style is that it does not use the **this** keyword, which can be a source of confusion and misunderstanding for developers. This style is ideal for objects that either do not have methods, or that will not be instantiated many times.
 
-This seeks to relieve some of the drawbacks of the functional style, by storing all of the Class methods in one location:
 
+# Functional-Shared
 ```javascript
-
 // Constructor:
 const Car = (obj, location, speed) => {
   obj.location = 0;
@@ -51,6 +41,7 @@ const Car = (obj, location, speed) => {
   return obj;
 };
 
+// Methods:
 const carMethods = {};
 carMethods.move = function(){ this.location += 1*this.speed; }
 carMethods.honk = function(){ console.log('Beep Beep'); };
@@ -58,15 +49,13 @@ carMethods.honk = function(){ console.log('Beep Beep'); };
 // Instantiation:
 const mazda = Car({}, 0, 3);
 const ferrari = Car({}, 0, 10);
-
 ```
 
-The functional-shared method is an improvement over the functional method, as the methods *move* and *honk* will only be created once in memory.
+This **Functional-shared** method seeks to relieve the main drawback of the functional style by storing all of the Class methods in one location. The methods *move* and *honk* will only be created once in memory.
 
-The Prototypal Style improves upon this concept by assigning Class methods to the Class constructor's prototype, instead of creating the *carMethods* object:
 
+# Prototypal
 ```javascript
-
 // Constructor:
 const Car = (location, speed) => {
   const obj = Object.create(Car.prototype);
@@ -80,28 +69,31 @@ Car.prototype.honk = function(){ console.log('Beep Beep'); };
 
 // Instantiation:
 const mazda = Car({}, 0, 3);
-const ferrari = Car({}, 0, 10);
-
 ```
-[*Object.create()*]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
-The [*Object.create()*] function creates a new object and sets the first given argument as the prototype object for that new object. Thus, all instances of Car will fallback to the Car.prototype object when looking up methods. This is similar to, although more efficient, than the functional shared style.
 
-[syntatic sugar]: https://en.wikipedia.org/wiki/Syntactic_sugar
-Finally, there is the Pseudoclassical Style of Class instantiation. This style is functionally identical to the prototypal style, but includes [syntatic sugar] that allows for cleaner, more concise code:
+The Prototypal Style further improves upon this concept by assigning Class methods directly to the Class constructor's prototype, instead of creating the *carMethods* object.
+
+The [*Object.create()*] function creates a new object, setting the first given argument as the prototype object for that new object. Thus, all instances of Car will fallback to the Car.prototype object when looking up methods. This is similar to, although more efficient, than the functional-shared style.
+
+
 
 ```javascript
-
 // Constructor:
 const Car = (location, speed) => {
   this.location = location;
   this.speed = speed;
 };
 
+//Methods
 Car.prototype.move = function(){ this.location += 1*this.speed; }
 Car.prototype.honk = function(){ console.log('Beep Beep'); };
 
 // Instantiation:
 const mazda = new Car({}, 0, 3);
-const ferrari = new Car({}, 0, 10);
-
 ```
+
+Finally, there is the Pseudoclassical Style of Class instantiation. This style is functionally identical to the prototypal style, but includes [syntatic sugar] that allows for cleaner, more concise code. As you can see, the constructor for this style is much more concise than in previously reviewed styles. Under the hood, the compiler interprets the **new** keyword and implicitly creates an object via *Object.create()* and then implicitly returns that object.
+
+
+[*Object.create()*]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+[syntatic sugar]: https://en.wikipedia.org/wiki/Syntactic_sugar
