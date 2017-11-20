@@ -3,8 +3,7 @@ layout: post
 title: JavaScript Class Instantiation Patterns
 ---
 
-An overview of the 4 JavaScript Class Instantiation Patterns - Functional, Functional Shared, Prototypal & Psuedoclassical.
-
+An overview and comparison of the four JavaScript Class Instantiation patterns.
 
 # Functional
 ```javascript
@@ -50,7 +49,7 @@ const mazda = Car({}, 0, 3);
 const ferrari = Car({}, 0, 10);
 ```
 
-This **Functional-shared** style seeks to relieve the main drawback of the functional style by storing all of the Class methods in one location. The methods *move* and *honk* will be created only once in memory.
+This Functional-shared style seeks to relieve the main drawback of the functional style by storing all of the Class methods in one location. The methods *move* and *honk* will be created only once in memory.
 
 
 # Prototypal
@@ -76,7 +75,7 @@ The prototypal style further improves upon this concept by assigning Class metho
 The [*Object.create()*] function creates a new object, setting the first given argument as the prototype object for that new object. Thus, all instances of Car will fallback to the Car.prototype object when looking up methods. This is similar to, although more efficient, than the functional-shared style.
 
 
-## Psuedoclassical
+# Psuedoclassical
 ```javascript
 // Constructor:
 const Car = (location, speed) => {
