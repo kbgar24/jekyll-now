@@ -92,7 +92,7 @@ Finally, there is the pseudoclassical style of Class instantiation. This style i
 
 # Final Thoughts
 
-I recommend using the functional instantiation pattern for code clarity and avoiding unnecessary usage of the **this** keyword. However, if many, many instances of an object are needed, and they share the same methods, than using the pseudoclassical is most appropriate.
+I recommend using the functional instantiation pattern for code clarity and to avoid unnecessary usage of the **this** keyword. However, if many, many instances of an object are needed, and they share the same methods, then using the pseudoclassical pattern is your best bet.
 
 [*Object.create()*]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 [syntactic sugar]: https://en.wikipedia.org/wiki/Syntactic_sugar
