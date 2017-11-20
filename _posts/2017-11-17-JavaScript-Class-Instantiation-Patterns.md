@@ -18,8 +18,6 @@ const Car = (obj, location, speed) => {
 
 // Instantiation
 const mazda = Car({}, 0, 3);
-const ferrari = Car({}, 0, 10);
-
 ```
 Functional classes are very easy to understand, as they take an object as an input, assign properties and methods to it, and then return that object.
 
@@ -46,10 +44,9 @@ carMethods.honk = function(){ console.log('Beep Beep'); };
 
 // Instantiation
 const mazda = Car({}, 0, 3);
-const ferrari = Car({}, 0, 10);
 ```
 
-This Functional-shared style seeks to relieve the main drawback of the functional style by storing all of the Class methods in one location. The methods *move* and *honk* will be created only once in memory.
+This functional-shared style seeks to relieve one drawback of the functional style by storing all of the Class methods in one location. The methods *move* and *honk* will be created only once in memory. Nevertheless, the Functional-shared style does share one drawback with its functional cousin: whenever methods on *carMethods* are added, changed, or removed, already instantiated objects of the *Car* class will not by automatically updated.
 
 
 # Prototypal
@@ -70,9 +67,9 @@ Car.prototype.honk = function(){ console.log('Beep Beep'); };
 const mazda = Car({}, 0, 3);
 ```
 
-The prototypal style further improves upon this concept by assigning Class methods directly to the Class constructor's prototype, instead of creating the *carMethods* object.
+The prototypal style improves upon this concept by assigning Class methods directly to the Class constructor's prototype, instead of creating the *carMethods* object.
 
-The [*Object.create()*] function creates a new object, setting the first given argument as the prototype object for that new object. Thus, all instances of Car will fallback to the Car.prototype object when looking up methods. This is similar to, although more efficient, than the functional-shared style.
+The [*Object.create()*] function creates a new object, setting the first given argument as the prototype object for that new object. Thus, all instances of *Car* will fallback to the *Car.prototype* object when looking up methods. The use of fallback is much more efficient that the solutions employed in the functional and functional-shared styles, as any changes to the methods on the *Car.prototype* object will be immediately accessible to all already-instantiated instances of the *Car* class.
 
 
 # Psuedoclassical
