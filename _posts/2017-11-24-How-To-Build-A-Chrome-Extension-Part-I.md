@@ -174,9 +174,9 @@ Both **browser actions** and **page actions** should include, in the **manfiest.
   ...
 }
 ```
-The *matches* properties defines on which domains the **content scripts** should be injected. Of note, *&58;<all_urls>* is the expression for injecting your **content scripts** into all pages the user might visit.
+The *matches* properties defines on which domains the **content scripts** should be injected. Of note, *&58;<all_urls>* is the expression for injecting your **content scripts** into all pages the User might visit.
 
-Given the broad capabilities that **content scripts** offer developers, it is little wonder that using them requires specific permission from the users. This permission is 'requested' by including the matched domains in the *permissions* array in the **manifest.json** file:
+Given the broad capabilities that **content scripts** offer developers, it is little wonder that using them requires specific permission from the User. This permission is 'requested' by including the matched domains in the *permissions* array in the **manifest.json** file:
 
 ```
 {
