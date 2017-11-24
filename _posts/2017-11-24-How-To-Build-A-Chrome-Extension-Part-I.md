@@ -135,7 +135,7 @@ While performant, **event pages** do require that any global variables contained
 
 # Browser Actions and Page Actions
 
-You have the option of specifying your Chrome extensionto be either a **browser action**, a **page action**, or neither. A **browser action** is intended to run on all (permissible) webpages. A **page action** is designed to run only on webpages. If your Chrome extensionwould not be useful to the User on all pages, it is preferable to use a **page action**.
+You have the option of specifying your Chrome extension to be either a **browser action**, a **page action**, or neither. A **browser action** is intended to run on all (permissible) webpages. A **page action** is designed to run only on webpages. If your Chrome extensionwould not be useful to the User on all pages, it is preferable to use a **page action**.
 
 Per Google Chrome's specs, all installed Chrome extensions must be visible in the Chrome bar (or in the Chrome extensionoverflow menu), however inactive **page action** extensions will be greyed out.
 
@@ -174,7 +174,7 @@ Both **browser actions** and **page actions** should include, in the **manfiest.
   ...
 }
 ```
-The *matches* properties defines on which domains the **content scripts** should be injected. Of note, _&58;<&58;all_urls>_ is the expression for injecting your **content scripts** into all pages the User might visit.
+The *matches* properties defines on which domains the **content scripts** should be injected. Of note, *all_urls* (placed between two chevrons) is the expression for injecting your **content scripts** into all pages the User might visit.
 
 Given the broad capabilities that **content scripts** offer developers, it is little wonder that using them requires specific permission from the User. This permission is 'requested' by including the matched domains in the *permissions* array in the **manifest.json** file:
 
