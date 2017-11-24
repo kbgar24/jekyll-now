@@ -3,11 +3,11 @@ layout: post
 title: How to Build a Chrome Extension (Part I)
 ---
 
-This section (Part I) will provide an overview of the basic structure of a Google Chrome Extension.
+This section (Part I) will provide a high-level overview of the basic structure of a Google Chrome Extension.
 
 # Introduction
 
-Google Chrome Extensions (CE's) are quite powerful - the extent to which cannot be fully appreciated without having built one. CE's can access and manipulate virtually any element on the DOM, store data, send external HTTP, server, database requests, and (perhaps most usefully) tightly && elegantly integrate with Google Chrome's robost suite of API's. The main components on a CE are the **manifest.json** file, **popup.html, popup.css, && popup.js** files,  **browser actions** *or* **page actions**, **background pages** *and/or* **event pages**, and **content scripts**.
+Google Chrome Extensions (CE's) are quite powerful - the extent to which cannot be fully appreciated without having built one. CE's can access and manipulate virtually any element on the DOM, store data, send external HTTP, server, database requests, and (perhaps most usefully) tightly && elegantly integrate with Google Chrome's robust suite of API's. The main components on a CE are the **manifest.json** file, **popup.html, popup.css, && popup.js** files,  **browser actions** *or* **page actions**, **background pages** *and/or* **event pages**, and **content scripts**.
 
 # Manifest.json
 
@@ -108,7 +108,32 @@ It is important to note that the code running within **popup.js** can only manip
 
 If you'd like to communicate between the popup and the DOM, you'll need to dispatch messages through the **chrome.tabs.sendMessage** API and listen to them by adding listener(s) to the **chrome.runtime.onMessage** API.
 
-Ideally, the popup should be a dumb UI component, and the logic within **popup.js** should reflect this. State management and application behavior should instead be managed through **background** or **event pages**. Having said that, **popup.js** does have access to any variables or functions declared within the **background/event pages**. 
+Ideally, the popup should be a dumb UI component, and the logic within **popup.js** should reflect this. State management and application behavior should instead be managed through **background** or **event pages**. Having said that, **popup.js** does have access to any variables or functions declared within the **background/event pages**.
+
+# Background and Event Pages
+
+**Background** or **event pages** are the workhouse of a Chrome Extension, able to communicate with the popup, outside resources (such as HTTP requests), and the DOM (via communication with **content scripts**). This is where the state of the application is managed, as well as where any tasks can be performed.
+
+There is an important distinction between the two - **background pages** are always active in memory, whereas **event pages** persist only when actively performing some action. When not in use, **event pages** are unloaded, freeing memory and other system resources. This can prove to be significantly more performant that always-on **background pages**. Chrome recommends using **event pages** wherever possible, and only reserving the use of **background pages** for cases wherein such always-on functionality is critical.
+
+**Background/event pages** are registered in the **manifest.json** file as such:
+
+```
+{
+  "name": "My extension",
+  ...
+  "background": {
+    "scripts": ["eventPage.js"],
+    "persistent": false
+  },
+  ...
+}
+```
+If no *persistent* property is provided, or if it is set to true, then the script specified in the *scripts* array will be a **background page**. Otherwise, the script will be run as an **event page**.
+
+While performatic, **event pages** do require that any global variables contained in them be stored in storage, such as the Chrome Storage API, if such variables need to be accessed while the **event page** is not in active.
+
+
 
 # Final Thoughts
 
