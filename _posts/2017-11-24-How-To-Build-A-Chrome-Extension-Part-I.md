@@ -152,12 +152,55 @@ Both **browser actions** and **page actions** should include, in the **manfiest.
   },
   ...
 }
+```
+
+# Content Scripts
+
+**Content scripts** are powerful tools for injecting JavaScript (as well as CSS) directly into the DOM. They run in a 'protected' environment that prevents them from directly accessing most outside resources. They can, however, dispatch/receive messages to/from the **background/event pages** and **popup.js** files using the *chrome.runtime.sendMessage* and *chrome.runtime.onMessage* APIs.
+
+**Content scripts** are declared within the **manifest.json** file as such:
 
 ```
+{
+  "name": "My extension",
+  ...
+  "content_scripts": [
+    {
+      "matches": ["http://www.google.com/*"],
+      "css": ["mystyles.css"],
+      "js": ["jquery.js", "myscript.js"]
+    }
+  ],
+  ...
+}
+```
+The *matches* properties defines on which domains the **content scripts** should be injected. Of note, *"<all_urls>"* is the expression for injecting your **content scripts** into all pages the user might visit.
+
+Given the broad capabilities that **content scripts** offer developers, it is little wonder that using them requries specific permission from the users. This permission is 'requested' by including the matched domains in the *permissions* array in the **manifest.json** file:
+
+```
+{
+  "name": "My extension",
+  ...
+  "content_scripts": [
+    {
+      "matches": ["http://www.google.com/*"],
+      "css": ["mystyles.css"],
+      "js": ["jquery.js", "myscript.js"]
+    }
+  ],
+  ...
+  "permissions": [
+    "http://www.google.com"
+  ]
+}
+```
+
+Because of their expressive power, it is important to ensure that your **content scripts** do not introduce security vulnerabilities. This is particularly the case when the **content script** receives data from an external source, such as another website.
 
 # Final Thoughts
 
-I recommend using the functional instantiation pattern for code clarity and to avoid unnecessary usage of the **this** keyword. However, if many, many instances of an object are needed, and they share the same methods, then using the pseudoclassical pattern is your best bet.
+Hopefully this broad overview of the main pieces that make up a Chrome Extension was helpful in laying a general framework for how CE's operate. In Part II of this post, we will be employing the knowledge learned above in building our own Chrome Extension from scratch.
 
 [*Object.create()*]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 [syntactic sugar]: https://en.wikipedia.org/wiki/Syntactic_sugar
