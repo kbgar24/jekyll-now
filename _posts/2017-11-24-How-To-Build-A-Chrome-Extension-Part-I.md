@@ -7,7 +7,7 @@ This section (Part I) will provide a high-level overview of the basic structure 
 
 # Introduction
 
-Google Chrome Extensions (CE's) are quite powerful - the extent to which cannot be fully appreciated without having built one. CE's can access and manipulate virtually any element on the DOM, store data, send external HTTP, server, database requests, and (perhaps most usefully) tightly && elegantly integrate with Google Chrome's robust suite of API's. The main components on a CE are the **manifest.json** file, **popup.html, popup.css, && popup.js** files,  **browser actions** *or* **page actions**, **background pages** *and/or* **event pages**, and **content scripts**.
+Google Chrome Extensions (CE's) are quite powerful - the extent to which cannot be fully appreciated without having built one. CE's can access and manipulate virtually any element on the DOM, send desktop notifications, store data, send external HTTP, server && database requests, and (perhaps most usefully) tightly && elegantly integrate with Google Chrome's robust suite of API's. They can also run in the background, regardless of whether Chrome itself has been opened by the user. The main components on a CE are the **manifest.json** file, **popup.html, popup.css, && popup.js** files, **background pages** *and/or* **event pages**, **browser actions** *or* **page actions**, and **content scripts**.
 
 # Manifest.json
 
@@ -116,7 +116,7 @@ Ideally, the popup should be a dumb UI component, and the logic within **popup.j
 
 There is an important distinction between the two - **background pages** are always active in memory, whereas **event pages** persist only when actively performing some action. When not in use, **event pages** are unloaded, freeing memory and other system resources. This can prove to be significantly more performant that always-on **background pages**. Chrome recommends using **event pages** wherever possible, and only reserving the use of **background pages** for cases wherein such always-on functionality is critical.
 
-**Background/event pages** are registered in the **manifest.json** file as such:
+**Background/Event pages** are registered in the **manifest.json** file as such:
 
 ```
 {
@@ -133,7 +133,27 @@ If no *persistent* property is provided, or if it is set to true, then the scrip
 
 While performatic, **event pages** do require that any global variables contained in them be stored in storage, such as the Chrome Storage API, if such variables need to be accessed while the **event page** is not in active.
 
+# Browser Actions and Page Actions
 
+You have the option of specifying your CE to be either a **browser action**, a **page action**, or neither. A **browser action** is intended to run in all tabs and on all (permissible) webpages. A **page action** is designed to run only on certain tabs or webpages. If your CE would not be useful to the User on al pages, it is preferable to use a **page action**.
+
+Per Google Chrome's specs, all installed CE's must be visible in the Chrome bar (or in the CE overflow menu), however inactive **page action** extensions will be greyed out.
+
+Both **browser actions** and **page actions** should include, in the **manfiest.json** file, *default_icon*, *default_popup*, and *default_title* properties:
+
+```
+{
+  "name": "My extension",
+  ...
+  "page_action": {
+    "default_icon": "icon16.png",
+    "default_popup": "popup.html",
+    "default_title": "PageFontStyle"
+  },
+  ...
+}
+
+```
 
 # Final Thoughts
 
