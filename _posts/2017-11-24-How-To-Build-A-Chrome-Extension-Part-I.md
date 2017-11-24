@@ -7,11 +7,11 @@ This section (Part I) will provide a high-level overview of the basic structure 
 
 # Introduction
 
-Google Chrome Extensions (CE's) are quite powerful - the extent to which cannot be fully appreciated without having built one. CE's can access and manipulate virtually any element on the DOM, send desktop notifications, store data, send external HTTP, server && database requests, and (perhaps most usefully) tightly && elegantly integrate with Google Chrome's robust suite of API's. They can also run in the background, regardless of whether Chrome itself has been opened by the user. The main components on a CE are the **manifest.json** file, **popup.html, popup.css, && popup.js** files, **background pages** *and/or* **event pages**, **browser actions** *or* **page actions**, and **content scripts**.
+Google Chrome Extensions (Chrome extensions) are quite powerful - the extent to which cannot be fully appreciated without having built one. Chrome extensions can access and manipulate virtually any element on the DOM, send desktop notifications, store data, send external HTTP, server && database requests, and (perhaps most usefully) tightly && elegantly integrate with Google Chrome's robust suite of API's. They can also run in the background, regardless of whether Chrome itself has been opened by the user. The main components on a Chrome extensions are the **manifest.json** file, **popup.html, popup.css, && popup.js** files, **background pages** *and/or* **event pages**, **browser actions** *or* **page actions**, and **content scripts**.
 
 # Manifest.json
 
-This file is the heart of any CE and provides important information about the extension's configuration. Below is a sample **manifest.json** file, with the required, recommended && optional fields specified:
+This file is the heart of any Chrome extension and provides important information about the extension's configuration. Below is a sample **manifest.json** file, with the required, recommended && optional fields specified:
 
 ```
 {
@@ -102,9 +102,9 @@ This file is the heart of any CE and provides important information about the ex
 
 # Popup Files
 
-If you would a menu to open when your Chrome extension is clicked, you must build the UI & logic for such through the use of **popup.html**, **popup.css**, and **popup.js** files. In-linen or internal style sheets (within **popup.html**) can be used in lieu of an actual **popup.css** file.
+If you would like a menu to open when your Chrome extension is clicked, you must build the UI & logic for such through the use of **popup.html**, **popup.css**, and **popup.js** files. In-line or internal style sheets (within **popup.html**) can be used in lieu of an actual **popup.css** file.
 
-It is important to note that the code running within **popup.js** can only manipulate the popup. It has **no effect** on the DOM. The popup can be debugged by right-clicking on the CE's icon in the Chrome bar and selecting *Inspect Popup*. This will open a separate dev console specifically for the popup. Any console.log's from **popup.js** will appear here.
+It is important to note that the code running within **popup.js** can only manipulate the popup. It has **no effect** on the DOM. The popup can be debugged by right-clicking on the Chrome extensions icon in the Chrome bar and selecting *Inspect Popup*. This will open a separate dev console specifically for the popup. Any console.log's or errors from **popup.js** will appear here.
 
 If you'd like to communicate between the popup and the DOM, you'll need to dispatch messages through the **chrome.tabs.sendMessage** API and listen to them by adding listener(s) to the **chrome.runtime.onMessage** API.
 
@@ -112,9 +112,9 @@ Ideally, the popup should be a dumb UI component, and the logic within **popup.j
 
 # Background and Event Pages
 
-**Background** or **event pages** are the workhouse of a Chrome Extension, able to communicate with the popup, outside resources (such as HTTP requests), and the DOM (via communication with **content scripts**). This is where the state of the application is managed, as well as where any tasks can be performed.
+**Background** or **event pages** are the workhouse of a Chrome Extension, able to communicate with the popup, outside resources (such as HTTP requests), and the DOM (via communication with **content scripts**). This is where the state of the application is managed, as well as where most tasks should be performed.
 
-There is an important distinction between the two - **background pages** are always active in memory, whereas **event pages** persist only when actively performing some action. When not in use, **event pages** are unloaded, freeing memory and other system resources. This can prove to be significantly more performant that always-on **background pages**. Chrome recommends using **event pages** wherever possible, and only reserving the use of **background pages** for cases wherein such always-on functionality is critical.
+There is an important distinction between the two - **background pages** are always active in memory, whereas **event pages** persist only when actively performing some action. When not in use, **event pages** are unloaded, freeing memory and other system resources. This can prove to be significantly more performant that always-on **background pages**. Chrome recommends using **event pages** wherever possible, reserving the use of **background pages** for cases wherein such always-on functionality is critical.
 
 **Background/Event pages** are registered in the **manifest.json** file as such:
 
@@ -129,15 +129,15 @@ There is an important distinction between the two - **background pages** are alw
   ...
 }
 ```
-If no *persistent* property is provided, or if it is set to true, then the script specified in the *scripts* array will be a **background page**. Otherwise, the script will be run as an **event page**.
+If no *persistent* property is provided, or if it is set to *true*, then the script specified in the *scripts* array will be a **background page**. Otherwise, the script will be run as an **event page**.
 
-While performatic, **event pages** do require that any global variables contained in them be stored in storage, such as the Chrome Storage API, if such variables need to be accessed while the **event page** is not in active.
+While performant, **event pages** do require that any global variables contained within them be stored in storage, such as the Chrome Storage API, if such variables need to be accessed while the **event page** is not in active.
 
 # Browser Actions and Page Actions
 
-You have the option of specifying your CE to be either a **browser action**, a **page action**, or neither. A **browser action** is intended to run in all tabs and on all (permissible) webpages. A **page action** is designed to run only on certain tabs or webpages. If your CE would not be useful to the User on al pages, it is preferable to use a **page action**.
+You have the option of specifying your Chrome extensionto be either a **browser action**, a **page action**, or neither. A **browser action** is intended to run on all (permissible) webpages. A **page action** is designed to run only on webpages. If your Chrome extensionwould not be useful to the User on all pages, it is preferable to use a **page action**.
 
-Per Google Chrome's specs, all installed CE's must be visible in the Chrome bar (or in the CE overflow menu), however inactive **page action** extensions will be greyed out.
+Per Google Chrome's specs, all installed Chrome extensions must be visible in the Chrome bar (or in the Chrome extensionoverflow menu), however inactive **page action** extensions will be greyed out.
 
 Both **browser actions** and **page actions** should include, in the **manfiest.json** file, *default_icon*, *default_popup*, and *default_title* properties:
 
@@ -178,7 +178,7 @@ The *matches* properties defines on which domains the **content scripts** should
 
 Given the broad capabilities that **content scripts** offer developers, it is little wonder that using them requries specific permission from the users. This permission is 'requested' by including the matched domains in the *permissions* array in the **manifest.json** file:
 
-```
+```json
 {
   "name": "My extension",
   ...
@@ -200,7 +200,7 @@ Because of their expressive power, it is important to ensure that your **content
 
 # Final Thoughts
 
-Hopefully this broad overview of the main pieces that make up a Chrome Extension was helpful in laying a general framework for how CE's operate. In Part II of this post, we will be employing the knowledge learned above in building our own Chrome Extension from scratch.
+Hopefully this broad overview of the main pieces that make up a Chrome Extension was helpful in laying a general framework for how  extensions operate. In Part II of this post, we will be employing these concepts to build our own Chrome Extension from scratch.
 
 [*Object.create()*]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 [syntactic sugar]: https://en.wikipedia.org/wiki/Syntactic_sugar
