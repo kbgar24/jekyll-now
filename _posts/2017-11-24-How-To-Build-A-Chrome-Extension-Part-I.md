@@ -137,7 +137,7 @@ While performant, **event pages** do require that any global variables contained
 
 You have the option of specifying your Chrome extension to be either a **browser action**, a **page action**, or neither. A **browser action** is intended to run on all (permissible) webpages. A **page action** is designed to run only on webpages. If your Chrome extension would not be useful to the User on all pages, it is preferable to use a **page action**.
 
-Per Google Chrome's specs, all installed Chrome extensions must be visible in the Chrome bar (or in the Chrome extensionoverflow menu), however inactive **page action** extensions will be greyed out.
+Per Google Chrome's specs, all installed Chrome extensions must be visible in the Chrome bar (or in the Chrome extension overflow menu), however inactive **page action** extensions will be greyed out.
 
 Both **browser actions** and **page actions** should include, in the **manfiest.json** file, *default_icon*, *default_popup*, and *default_title* properties:
 
